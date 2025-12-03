@@ -3,9 +3,12 @@ import ButtonPrimary from '../ButtonPrimary/ButtonPrimary';
 import ItemCount from '../ItemCount/ItemCount';
 import './ItemDetail.css';
 import { ShoppingBasket } from "lucide-react";
+import { useCart } from '../../context/CartContext';
 
 function ItemDetail({ product }) {
   const navigate = useNavigate();
+
+  const { addToCart } = useCart();
 
   const navigateProductDetail = () => {
     navigate(`/product-detail/${product.id}`);
@@ -22,7 +25,7 @@ function ItemDetail({ product }) {
       <span className="itemDetail-price">{product.price} $ ARG</span>
 
       <div className="itemDetail-buttons">
-        <ButtonPrimary>
+        <ButtonPrimary onClick={() => addToCart(product)}>
           <ShoppingBasket />
           Carrito
         </ButtonPrimary>
