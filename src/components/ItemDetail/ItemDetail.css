@@ -1,0 +1,31 @@
+.itemDetail {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    border: solid black 2px;
+    margin: 10px;
+    border-radius: 8px;
+
+    background: #e3b1c4;
+    background: radial-gradient(circle, rgba(227, 177, 196, 1) 29%, rgba(204, 180, 207, 1) 47%, rgba(174, 184, 221, 1) 91%, rgba(148, 187, 233, 1) 100%);
+}
+
+.itemDetail-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.itemDetail-title {
+    text-align: center;
+}
+
+.itemDetail-description {
+    text-align: center;
+}
+
+.itemDetail:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
