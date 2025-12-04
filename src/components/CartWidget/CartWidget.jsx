@@ -9,20 +9,23 @@ function CartWidget () {
 }
 
 export default CartWidget */
-
+import { NavLink } from 'react-router'
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import './CartWidget.css'
 
 function CartWidget() {
-  const { cartQuantity } = useCart();
+    const { cartQuantity } = useCart();
 
-  return (
-    <div className="cart-widget">
-      <ShoppingCart size={30} color="white" />
-      {cartQuantity > 0 && <span className="cart-badge">{cartQuantity}</span>}
-    </div>
-  );
+    return (
+        <div className="cart-widget">
+            <button className='btn-cartWidget'>
+                <NavLink to="/cart-detail"><ShoppingCart className='shoppingCart' size={30}/></NavLink>
+                {cartQuantity > 0 && <span className="cart-badge">{cartQuantity}</span>}
+            </button>
+
+        </div>
+    );
 }
 
 export default CartWidget;

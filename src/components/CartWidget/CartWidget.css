@@ -1,4 +1,4 @@
-/* .cartWidget{
+.btn-cartWidget{
     background-color: transparent;
     cursor: pointer;
     border: none;
@@ -6,7 +6,7 @@
 
 .shoppingCart{
     color: white;
-} */
+}
 
 .cart-widget {
   position: relative;
