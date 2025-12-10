@@ -42,7 +42,7 @@ export default function CartProvider ({children}) {
     )
 } */
 
-import { createContext, useState, useContext } from "react";
+/* import { createContext, useState, useContext } from "react";
 
 const CartContext = createContext();
 
@@ -68,6 +68,53 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider value={{ cart, addToCart, cartQuantity }}>
+      {children}
+    </CartContext.Provider>
+  );
+};
+
+export const useCart = () => useContext(CartContext);
+ */
+
+import { createContext, useState, useContext } from "react";
+
+const CartContext = createContext();
+
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    const existing = cart.find((item) => item.id === product.id);
+
+    if (existing) {
+      const updated = cart.map((item) =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      setCart(updated);
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+  };
+
+  
+  const removeItem = (id) => {
+    setCart(cart.filter((item) => item.id !== id));
+  };
+
+  
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  
+  const cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+  return (
+    <CartContext.Provider
+      value={{ cart, addToCart, cartQuantity, removeItem, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );
