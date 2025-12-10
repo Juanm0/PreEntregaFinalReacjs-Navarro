@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemDetail from '../ItemDetail/ItemDetail';
 import './ItemListContainer.css';
-import { initializeApp } from 'firebase/app';
+
+import { app } from '../../firebaseConfig';
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
 function ItemListContainer() {
   const { categoriaId } = useParams();
@@ -13,17 +15,26 @@ function ItemListContainer() {
     (async () => {
       try {
         setLoading(true);
-        const response = await fetch('/products.json');
-        const data = await response.json();
+
+     
+        const db = getFirestore(app);
+        const productsCollection = collection(db, 'products');
+        const snapshot = await getDocs(productsCollection);
 
   
-        const filtered = categoriaId
-          ? data.filter((product) => product.category === categoriaId)
-          : data;
+        let data = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-        setProducts(filtered);
+        if (categoriaId) {
+          data = data.filter(product => product.category === categoriaId);
+        }
+
+        setProducts(data);
+
       } catch (error) {
-        console.error('Error al cargar los productos:', error);
+        console.error('Error al cargar los productos desde Firebase:', error);
       } finally {
         setLoading(false);
       }
