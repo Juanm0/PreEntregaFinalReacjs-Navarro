@@ -1,0 +1,38 @@
+.checkout-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.checkout-summary {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.checkout-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.checkout-summary-total {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 12px;
+  font-size: 1.1rem;
+}
+
+.order-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.order-id {
+  font-size: 1.1rem;
+  margin: 16px 0;
+}

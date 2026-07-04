@@ -1,17 +1,22 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonPrimary from '../ButtonPrimary/ButtonPrimary';
 import ItemCount from '../ItemCount/ItemCount';
 import './ItemDetail.css';
-import { ShoppingBasket } from "lucide-react";
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../hooks/useCart';
 
 function ItemDetail({ product }) {
   const navigate = useNavigate();
-
   const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
 
   const navigateProductDetail = () => {
     navigate(`/product-detail/${product.id}`);
+  };
+
+  const handleAdd = (quantity) => {
+    addToCart(product, quantity);
+    setAdded(true);
   };
 
   return (
@@ -19,19 +24,19 @@ function ItemDetail({ product }) {
       <h3 className="itemDetail-title">{product.title}</h3>
       <img src={product.image} alt={product.title} className="itemDetail-image" />
       <p className="itemDetail-description">{product.description}</p>
-
-      <ItemCount stock={product.stock} />
-
       <span className="itemDetail-price">{product.price} $ ARG</span>
 
-      <div className="itemDetail-buttons">
-        <ButtonPrimary onClick={() => addToCart(product)}>
-          <ShoppingBasket />
-          Carrito
-        </ButtonPrimary>
+      {product.stock === 0 ? (
+        <p className="itemDetail-sin-stock">Sin stock</p>
+      ) : added ? (
+        <p className="itemDetail-agregado">Agregado al carrito ✓</p>
+      ) : (
+        <ItemCount stock={product.stock} onAdd={handleAdd} />
+      )}
 
+      <div className="itemDetail-buttons">
         <ButtonPrimary onClick={navigateProductDetail}>
-          Detalle
+          Ver detalle
         </ButtonPrimary>
       </div>
     </div>

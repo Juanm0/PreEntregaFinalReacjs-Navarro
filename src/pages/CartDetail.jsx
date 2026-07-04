@@ -1,72 +1,75 @@
-
-import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
+import "./CartDetail.css";
 
 function CartDetail() {
-  const { cart, removeItem, clearCart, cartQuantity } = useCart();
+  const { cart, removeItem, clearCart, updateQuantity, cartQuantity, cartTotal } =
+    useCart();
+  const navigate = useNavigate();
 
   if (cartQuantity === 0) {
     return (
-      <div style={{ padding: "20px" }}>
+      <div className="cart-detail">
         <h2>Carrito</h2>
         <p>Tu carrito está vacío.</p>
+        <button className="btn-seguir" onClick={() => navigate("/")}>
+          Ver productos
+        </button>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="cart-detail">
       <h2>Carrito</h2>
 
       {cart.map((product) => (
-        <div
-          key={product.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            borderBottom: "1px solid #ccc",
-            padding: "10px 0"
-          }}
-        >
-          <img
-            src={product.image}
-            alt={product.title}
-            style={{ width: "80px", marginRight: "15px" }}
-          />
+        <div key={product.id} className="cart-item">
+          <img src={product.image} alt={product.title} className="cart-item-image" />
 
-          <div style={{ flex: 1 }}>
+          <div className="cart-item-info">
             <h3>{product.title}</h3>
-            <p>Precio: ${product.price}</p>
-            <p>Cantidad: {product.quantity}</p>
+            <p>Precio unitario: ${product.price}</p>
+
+            <div className="cart-item-qty">
+              <button
+                onClick={() => updateQuantity(product.id, product.quantity - 1)}
+                disabled={product.quantity <= 1}
+              >
+                -
+              </button>
+              <span>{product.quantity}</span>
+              <button
+                onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                disabled={product.stock ? product.quantity >= product.stock : false}
+              >
+                +
+              </button>
+            </div>
+
+            <p className="cart-item-subtotal">
+              Subtotal: ${(product.price * product.quantity).toFixed(2)}
+            </p>
           </div>
 
-          <button
-            onClick={() => removeItem(product.id)}
-            style={{
-              background: "red",
-              color: "white",
-              border: "none",
-              padding: "8px 12px",
-              cursor: "pointer"
-            }}
-          >
+          <button className="btn-eliminar" onClick={() => removeItem(product.id)}>
             Eliminar
           </button>
         </div>
       ))}
 
-      <button
-        onClick={clearCart}
-        style={{
-          marginTop: "20px",
-          background: "#444",
-          color: "white",
-          padding: "12px 16px",
-          border: "none",
-          cursor: "pointer"
-        }}
-      >
-        Vaciar carrito
-      </button>
+      <div className="cart-summary">
+        <h3>Total: ${cartTotal.toFixed(2)}</h3>
+
+        <div className="cart-summary-buttons">
+          <button className="btn-vaciar" onClick={clearCart}>
+            Vaciar carrito
+          </button>
+          <button className="btn-checkout" onClick={() => navigate("/checkout")}>
+            Finalizar compra
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

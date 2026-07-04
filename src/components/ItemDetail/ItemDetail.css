@@ -29,3 +29,15 @@
     transform: translateY(-4px);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
 }
+
+.itemDetail-sin-stock {
+    text-align: center;
+    font-weight: 600;
+    color: #a30000;
+}
+
+.itemDetail-agregado {
+    text-align: center;
+    font-weight: 600;
+    color: #1a6d1a;
+}

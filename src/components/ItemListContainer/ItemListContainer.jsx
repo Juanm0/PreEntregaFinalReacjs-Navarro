@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import ItemDetail from '../ItemDetail/ItemDetail';
 import './ItemListContainer.css';
 
-import { app } from '../../firebaseConfig';
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { db } from '../../firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
 
 function ItemListContainer() {
   const { categoriaId } = useParams();
@@ -16,12 +16,9 @@ function ItemListContainer() {
       try {
         setLoading(true);
 
-     
-        const db = getFirestore(app);
         const productsCollection = collection(db, 'products');
         const snapshot = await getDocs(productsCollection);
 
-  
         let data = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
@@ -32,7 +29,6 @@ function ItemListContainer() {
         }
 
         setProducts(data);
-
       } catch (error) {
         console.error('Error al cargar los productos desde Firebase:', error);
       } finally {
