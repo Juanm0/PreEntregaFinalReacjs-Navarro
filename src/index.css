@@ -12,6 +12,7 @@ body {
     rgba(5, 16, 18, 1) 100%
   );
   min-height: 100vh;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 /* :root {
